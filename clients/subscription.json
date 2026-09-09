@@ -68,7 +68,13 @@
           "akamaihd.net",
           "edgekey.net",
           "aekfc.gr",
-          "aektv.gr"
+          "aektv.gr",
+          "ticketmaster.gr",
+          "ticketmaster.com",
+          "evandis.com"
+        ],
+        "geosite": [
+          "cn"
         ],
         "strategy": "ipv4_only"
       }
@@ -162,7 +168,13 @@
           "akamaihd.net",
           "edgekey.net",
           "aekfc.gr",
-          "aektv.gr"
+          "aektv.gr",
+          "ticketmaster.gr",
+          "ticketmaster.com",
+          "evandis.com"
+        ],
+        "geosite": [
+          "cn"
         ]
       },
       {
