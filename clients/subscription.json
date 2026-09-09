@@ -44,32 +44,31 @@
       {
         "server": "remote_dns",
         "clash_mode": "Global",
-        "strategy": "prefer_ipv4"
+        "strategy": "ipv4_only"
       },
       {
         "server": "direct_dns",
         "clash_mode": "Direct",
-        "strategy": "prefer_ipv4"
+        "strategy": "ipv4_only"
       },
       {
         "server": "direct_dns",
         "domain_suffix": [
           "gov.gr",
-          "magenta.tv",
+          "magenta.at",
+          "magentatv.at",
           "magentatv.gr",
-          "telekom.gr",
           "telekom.de",
+          "telekom.com",
           "cosmote.gr",
-          "ott.cosmote.gr",
           "cosmotetv.gr",
+          "cosmotetvott.gr",
+          "theplatform.com",
+          "impervadns.net",
           "akamaihd.net",
-          "edgekey.net",
-          "comet.com.gr"
+          "edgekey.net"
         ],
-        "domain_regex": [
-          ".*\\.gr$"
-        ],
-        "strategy": "prefer_ipv4"
+        "strategy": "ipv4_only"
       }
     ],
     "final": "remote_dns",
@@ -107,7 +106,7 @@
       "tag": "direct",
       "domain_resolver": {
         "server": "direct_dns",
-        "strategy": "prefer_ipv4"
+        "strategy": "ipv4_only"
       }
     }
   ],
@@ -148,36 +147,23 @@
         "outbound": "direct",
         "domain_suffix": [
           "gov.gr",
-          "magenta.tv",
+          "magenta.at",
+          "magentatv.at",
           "magentatv.gr",
-          "telekom.gr",
           "telekom.de",
+          "telekom.com",
           "cosmote.gr",
-          "ott.cosmote.gr",
           "cosmotetv.gr",
+          "cosmotetvott.gr",
+          "theplatform.com",
+          "impervadns.net",
           "akamaihd.net",
-          "edgekey.net",
-          "comet.com.gr"
-        ],
-        "domain_regex": [
-          ".*\\.gr$"
+          "edgekey.net"
         ]
       },
       {
         "outbound": "direct",
-        "ip_is_private": true,
-        "rule_set": [
-          "geoip-gr"
-        ]
-      }
-    ],
-    "rule_set": [
-      {
-        "tag": "geoip-gr",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://raw.githubusercontent.com/2dust/sing-box-rules/rule-set-geoip/geoip-gr.srs",
-        "download_detour": "proxy"
+        "ip_is_private": true
       }
     ],
     "final": "proxy"
