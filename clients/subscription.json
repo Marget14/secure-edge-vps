@@ -62,7 +62,9 @@
           "cosmote.gr",
           "ott.cosmote.gr",
           "cosmotetv.gr",
-          "akamaihd.net"
+          "akamaihd.net",
+          "edgekey.net",
+          "comet.com.gr"
         ],
         "domain_regex": [
           ".*\\.gr$"
@@ -153,7 +155,9 @@
           "cosmote.gr",
           "ott.cosmote.gr",
           "cosmotetv.gr",
-          "akamaihd.net"
+          "akamaihd.net",
+          "edgekey.net",
+          "comet.com.gr"
         ],
         "domain_regex": [
           ".*\\.gr$"
