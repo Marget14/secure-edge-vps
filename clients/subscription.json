@@ -92,13 +92,24 @@
   ],
   "outbounds": [
     {
+      "type": "urltest",
+      "tag": "proxy",
+      "outbounds": [
+        "hysteria2-highspeed",
+        "vless-reality-backup"
+      ],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "5m",
+      "tolerance": 50
+    },
+    {
+      "type": "hysteria2",
+      "tag": "hysteria2-highspeed",
       "server": "dim-zurich-vpn.duckdns.org",
       "server_port": 8443,
       "up_mbps": 100,
       "down_mbps": 100,
       "password": "YOUR_HYSTERIA_PASSWORD_HERE",
-      "type": "hysteria2",
-      "tag": "proxy",
       "tls": {
         "enabled": true,
         "server_name": "dim-zurich-vpn.duckdns.org",
@@ -107,6 +118,27 @@
       "obfs": {
         "type": "salamander",
         "password": "YOUR_SALAMANDER_PASSWORD_HERE"
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "vless-reality-backup",
+      "server": "dim-zurich-vpn.duckdns.org",
+      "server_port": 443,
+      "uuid": "YOUR_VLESS_UUID_HERE",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "dl.google.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "YOUR_REALITY_PUBLIC_KEY_HERE",
+          "short_id": "YOUR_REALITY_SHORT_ID_HERE"
+        }
       }
     },
     {
