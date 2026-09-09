@@ -1,0 +1,181 @@
+{
+  "log": {
+    "level": "warn",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "server": "1.1.1.1",
+        "type": "udp",
+        "tag": "local_local"
+      },
+      {
+        "server": "dns.google",
+        "domain_resolver": "local_local",
+        "path": "/dns-query",
+        "type": "https",
+        "tag": "remote_dns",
+        "detour": "proxy"
+      },
+      {
+        "server": "1.1.1.1",
+        "domain_resolver": "local_local",
+        "type": "udp",
+        "tag": "direct_dns"
+      },
+      {
+        "predefined": {},
+        "type": "hosts",
+        "tag": "hosts_dns"
+      }
+    ],
+    "rules": [
+      {
+        "server": "hosts_dns",
+        "ip_accept_any": true
+      },
+      {
+        "server": "direct_dns",
+        "domain": [
+          "dim-zurich-vpn.duckdns.org"
+        ]
+      },
+      {
+        "server": "remote_dns",
+        "clash_mode": "Global",
+        "strategy": "prefer_ipv4"
+      },
+      {
+        "server": "direct_dns",
+        "clash_mode": "Direct",
+        "strategy": "prefer_ipv4"
+      },
+      {
+        "server": "direct_dns",
+        "domain_suffix": [
+          "gov.gr",
+          "magenta.tv",
+          "magentatv.gr",
+          "telekom.gr",
+          "telekom.de",
+          "cosmote.gr",
+          "ott.cosmote.gr",
+          "cosmotetv.gr",
+          "akamaihd.net"
+        ],
+        "domain_regex": [
+          ".*\\.gr$"
+        ],
+        "strategy": "prefer_ipv4"
+      }
+    ],
+    "final": "remote_dns",
+    "independent_cache": true
+  },
+  "inbounds": [
+    {
+      "type": "mixed",
+      "tag": "socks",
+      "listen": "127.0.0.1",
+      "listen_port": 10808
+    }
+  ],
+  "outbounds": [
+    {
+      "server": "dim-zurich-vpn.duckdns.org",
+      "server_port": 8443,
+      "up_mbps": 100,
+      "down_mbps": 100,
+      "password": "YOUR_HYSTERIA_PASSWORD_HERE",
+      "type": "hysteria2",
+      "tag": "proxy",
+      "tls": {
+        "enabled": true,
+        "server_name": "dim-zurich-vpn.duckdns.org",
+        "insecure": false
+      },
+      "obfs": {
+        "type": "salamander",
+        "password": "YOUR_SALAMANDER_PASSWORD_HERE"
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "direct",
+      "domain_resolver": {
+        "server": "direct_dns",
+        "strategy": "prefer_ipv4"
+      }
+    }
+  ],
+  "route": {
+    "default_domain_resolver": {
+      "server": "direct_dns"
+    },
+    "rules": [
+      {
+        "action": "sniff"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "port": [
+              53
+            ]
+          },
+          {
+            "protocol": [
+              "dns"
+            ]
+          }
+        ],
+        "action": "hijack-dns"
+      },
+      {
+        "outbound": "direct",
+        "clash_mode": "Direct"
+      },
+      {
+        "outbound": "proxy",
+        "clash_mode": "Global"
+      },
+      {
+        "outbound": "direct",
+        "domain_suffix": [
+          "gov.gr",
+          "magenta.tv",
+          "magentatv.gr",
+          "telekom.gr",
+          "telekom.de",
+          "cosmote.gr",
+          "ott.cosmote.gr",
+          "cosmotetv.gr",
+          "akamaihd.net"
+        ],
+        "domain_regex": [
+          ".*\\.gr$"
+        ]
+      },
+      {
+        "outbound": "direct",
+        "ip_is_private": true,
+        "rule_set": [
+          "geoip-gr"
+        ]
+      }
+    ],
+    "rule_set": [
+      {
+        "tag": "geoip-gr",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/2dust/sing-box-rules/rule-set-geoip/geoip-gr.srs",
+        "download_detour": "proxy"
+      }
+    ],
+    "final": "proxy"
+  }
+}
