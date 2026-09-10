@@ -1,131 +1,11 @@
 {
-  "log": {
-    "level": "warn",
-    "timestamp": true
-  },
-  "dns": {
-    "servers": [
-      {
-        "server": "1.1.1.1",
-        "type": "udp",
-        "tag": "local_local"
-      },
-      {
-        "server": "dns.google",
-        "domain_resolver": "local_local",
-        "path": "/dns-query",
-        "type": "https",
-        "tag": "remote_dns",
-        "detour": "proxy"
-      },
-      {
-        "server": "1.1.1.1",
-        "domain_resolver": "local_local",
-        "type": "udp",
-        "tag": "direct_dns"
-      },
-      {
-        "predefined": {},
-        "type": "hosts",
-        "tag": "hosts_dns"
-      }
-    ],
-    "rules": [
-      {
-        "server": "hosts_dns",
-        "ip_accept_any": true
-      },
-      {
-        "server": "direct_dns",
-        "domain": [
-          "dim-zurich-vpn.duckdns.org"
-        ]
-      },
-      {
-        "server": "remote_dns",
-        "clash_mode": "Global",
-        "strategy": "ipv4_only"
-      },
-      {
-        "server": "direct_dns",
-        "clash_mode": "Direct",
-        "strategy": "ipv4_only"
-      },
-      {
-        "server": "direct_dns",
-        "domain_suffix": [
-          "gov.gr",
-          "magenta.at",
-          "magentatv.at",
-          "magentatv.gr",
-          "telekom.de",
-          "telekom.com",
-          "cosmote.gr",
-          "cosmotetv.gr",
-          "cosmotetvott.gr",
-          "theplatform.com",
-          "impervadns.net",
-          "akamaihd.net",
-          "edgekey.net",
-          "aekfc.gr",
-          "aektv.gr",
-          "ticketmaster.gr",
-          "ticketmaster.com",
-          "evandis.com"
-        ],
-        "geosite": [
-          "cn"
-        ],
-        "strategy": "ipv4_only"
-      }
-    ],
-    "final": "remote_dns",
-    "independent_cache": true
-  },
-  "inbounds": [
-    {
-      "type": "mixed",
-      "tag": "socks",
-      "listen": "127.0.0.1",
-      "listen_port": 10808
-    }
-  ],
   "outbounds": [
     {
-      "type": "urltest",
-      "tag": "proxy",
-      "outbounds": [
-        "hysteria2-highspeed",
-        "vless-reality-backup"
-      ],
-      "url": "https://www.gstatic.com/generate_204",
-      "interval": "5m",
-      "tolerance": 50
-    },
-    {
-      "type": "hysteria2",
-      "tag": "hysteria2-highspeed",
-      "server": "dim-zurich-vpn.duckdns.org",
-      "server_port": 8443,
-      "up_mbps": 100,
-      "down_mbps": 100,
-      "password": "YOUR_HYSTERIA_PASSWORD_HERE",
-      "tls": {
-        "enabled": true,
-        "server_name": "dim-zurich-vpn.duckdns.org",
-        "insecure": false
-      },
-      "obfs": {
-        "type": "salamander",
-        "password": "YOUR_SALAMANDER_PASSWORD_HERE"
-      }
-    },
-    {
       "type": "vless",
-      "tag": "vless-reality-backup",
-      "server": "dim-zurich-vpn.duckdns.org",
-      "server_port": 443,
-      "uuid": "YOUR_VLESS_UUID_HERE",
+      "tag": "VLESS-Reality-TCP",
+      "server": "140.238.216.130",
+      "server_port": 8443,
+      "uuid": "9ece67db-16e4-431e-8307-80be16db2398",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
@@ -136,84 +16,23 @@
         },
         "reality": {
           "enabled": true,
-          "public_key": "YOUR_REALITY_PUBLIC_KEY_HERE",
-          "short_id": "YOUR_REALITY_SHORT_ID_HERE"
+          "public_key": "uPJ2VZYzHq_xXeOvFyOKZwjR_rfJuMY_BLDs9n8PUjA",
+          "short_id": "918c9853f177"
         }
-      }
+      },
+      "packet_encoding": "xudp"
     },
     {
-      "type": "direct",
-      "tag": "direct",
-      "domain_resolver": {
-        "server": "direct_dns",
-        "strategy": "ipv4_only"
+      "type": "hysteria2",
+      "tag": "Hysteria2-UDP",
+      "server": "140.238.216.130",
+      "server_port": 8443,
+      "password": "9ece67db-16e4-431e-8307-80be16db2398",
+      "tls": {
+        "enabled": true,
+        "server_name": "dim-zurich-vpn.duckdns.org",
+        "insecure": true
       }
     }
-  ],
-  "route": {
-    "default_domain_resolver": {
-      "server": "direct_dns"
-    },
-    "rules": [
-      {
-        "action": "sniff"
-      },
-      {
-        "type": "logical",
-        "mode": "or",
-        "rules": [
-          {
-            "port": [
-              53
-            ]
-          },
-          {
-            "protocol": [
-              "dns"
-            ]
-          }
-        ],
-        "action": "hijack-dns"
-      },
-      {
-        "outbound": "direct",
-        "clash_mode": "Direct"
-      },
-      {
-        "outbound": "proxy",
-        "clash_mode": "Global"
-      },
-      {
-        "outbound": "direct",
-        "domain_suffix": [
-          "gov.gr",
-          "magenta.at",
-          "magentatv.at",
-          "magentatv.gr",
-          "telekom.de",
-          "telekom.com",
-          "cosmote.gr",
-          "cosmotetv.gr",
-          "cosmotetvott.gr",
-          "theplatform.com",
-          "impervadns.net",
-          "akamaihd.net",
-          "edgekey.net",
-          "aekfc.gr",
-          "aektv.gr",
-          "ticketmaster.gr",
-          "ticketmaster.com",
-          "evandis.com"
-        ],
-        "geosite": [
-          "cn"
-        ]
-      },
-      {
-        "outbound": "direct",
-        "ip_is_private": true
-      }
-    ],
-    "final": "proxy"
-  }
+  ]
 }
