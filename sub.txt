@@ -1,2 +1,0 @@
-vless://9ece67db-16e4-431e-8307-80be16db2398@140.238.216.130:8443?type=tcp&security=reality&pbk=uPJ2VZYzHq_xXeOvFyOKZwjR_rfJuMY_BLDs9n8PUjA&fp=chrome&sni=dl.google.com&sid=918c9853f177&flow=xtls-rprx-vision#VLESS-Reality-TCP
-hysteria2://9ece67db-16e4-431e-8307-80be16db2398@140.238.216.130:8443?insecure=1&sni=dim-zurich-vpn.duckdns.org#Hysteria2-UDP
