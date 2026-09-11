@@ -1,0 +1,2 @@
+[swiss_nodes]
+node1_zurich ansible_host=YOUR_ZURICH_IP ansible_user=ubuntu
