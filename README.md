@@ -29,7 +29,7 @@ The architecture follows a strict **Defense-in-Depth** model layered across the 
 │                                                                        │
 │ ┌────────────────────────────────────────────────────────────────────┐ │
 │ │ Network Perimeter & Host Defense (OSI Layers 3/4)                  │ │
-│ │ ├── UFW Firewall (Strict Ingress Whitelisting)                     │ │
+│ │ ├── iptables Firewall (Strict Ingress Filtering)                   │ │
 │ │ ├── Fail2ban (Automated SSH & Service Brute-Force Jails)           │ │
 │ │ └── Sysctl Kernel Hardening (rp_filter, tcp_syncookies, No-Redirect)│ │
 │ └────────────────────────────────┬───────────────────────────────────┘ │
