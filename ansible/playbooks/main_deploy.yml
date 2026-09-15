@@ -1,0 +1,40 @@
+---
+- name: Deploy Hardened SecureEdge-VPS Stack
+  hosts: swiss_vps
+  become: true
+
+  tasks:
+    - name: Ensure correct directory structure
+      file:
+        path: /opt/secure-edge-vps
+        state: directory
+
+    - name: Apply Kernel Hardening (sysctl)
+      sysctl:
+        name: "{{ item.key }}"
+        value: "{{ item.value }}"
+        state: present
+        reload: yes
+      loop:
+        - { key: 'net.ipv4.conf.all.rp_filter', value: '1' }
+        - { key: 'net.ipv4.tcp_syncookies', value: '1' }
+
+    - name: Configure Perimeter Firewall (iptables)
+      iptables:
+        chain: INPUT
+        protocol: "{{ item.protocol }}"
+        destination_port: "{{ item.port }}"
+        jump: ACCEPT
+      loop:
+        - { protocol: 'tcp', port: '443' } # VLESS / Reality
+        - { protocol: 'udp', port: '443' } # Hysteria2 / QUIC
+        - { protocol: 'udp', port: '53' }  # AdGuard DoQ
+
+    - name: Auto-Detect MTU for Hysteria2 Bandwidth Tuning
+      debug:
+        msg: "Detected Interface MTU: {{ ansible_default_ipv4.mtu }}"
+
+    - name: Deploy Services Stack (Docker Compose)
+      community.docker.docker_compose_v2:
+        project_src: /opt/secure-edge-vps
+        state: present
